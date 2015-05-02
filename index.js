@@ -29,9 +29,7 @@ fs.readFile('./img/bitmap1.bmp', function (err, data) {
 		bitMap.resH = bitMapBuff.readUInt32LE(38);
 		bitMap.resV = bitMapBuff.readUInt32LE(42);
 		bitMap.colorNum = bitMapBuff.readUInt32LE(46);
-		bitMap.colorImpt = bitMapBuff.readUInt32LE(50);
-		bitMap.colorPalate = bitMapBuff.readUInt32LE(54);
-		
+		bitMap.colorImpt = bitMapBuff.readUInt32LE(50);		
 		bitMap.readColorPalate = function () {
 			var counter = 0;
 			for (var i = 54; i < bitMap.startAddress ; i+=4) {
@@ -42,7 +40,6 @@ fs.readFile('./img/bitmap1.bmp', function (err, data) {
 			  	a: 0
 			  }
 			  counter ++;
-
 			}
 		}
 
