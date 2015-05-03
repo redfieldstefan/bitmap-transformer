@@ -12,44 +12,56 @@ var step = new Step();
 fs.readFile('./img/bitmap1.bmp', function (err, data) {
 
 	if(err) {
-		throw error
+		throw err;
 	} else {
+
 		var bitMapBuff;
-		var pallete = [];
+		var palette = [];
 		bitMapBuff = data;
-		
 		var bitMap = {};
-		bitMap.headerSize = bitMapBuff.readUInt32LE(2);
-		bitMap.startAddress = bitMapBuff.readUInt32LE(10);
-		bitMap.width = bitMapBuff.readUInt32LE(18);
-		bitMap.height = bitMapBuff.readUInt32LE(22);
-		bitMap.colorPlanes = bitMapBuff.readUInt16LE(26);
-		bitMap.colorDepth =  bitMapBuff.readUInt16LE(28);
-		bitMap.imageSize = bitMapBuff.readUInt32LE(34);
-		bitMap.resH = bitMapBuff.readUInt32LE(38);
-		bitMap.resV = bitMapBuff.readUInt32LE(42);
-		bitMap.colorNum = bitMapBuff.readUInt32LE(46);
-		bitMap.colorImpt = bitMapBuff.readUInt32LE(50);		
-		bitMap.readColorPalate = function () {
+
+		bitMap.startAddress = bitMapBuff.readUInt32LE(10);	
+		bitMap.readColorPalate = (function () {
 			var counter = 0;
 			for (var i = 54; i < bitMap.startAddress ; i+=4) {
-			  pallete[counter] = {
-			  	b: bitMapBuff.readUInt8(i),
-			  	g: bitMapBuff.readUInt8(i+1),
-			  	r: bitMapBuff.readUInt8(i+2),
-			  	a: 0
-			  }
+			  palette[counter] = [bitMapBuff.readUInt8(i), bitMapBuff.readUInt8(i+1), bitMapBuff.readUInt8(i+2), 0];
 			  counter ++;
 			}
-		}
+		})();
 
-		bitMap.readColorPalate();
-		console.log(pallete);
+		var transform = function(array) {
 
+			var m = array.length;
+			var t;
+			var i;
 
+			while(m) {
+				i = Math.floor(Math.random() * m--);
+				t = array[m];
+				array[m] = array[i];
+				array[i] = t;
+			}
+			return array;
+		};
+
+		transform(palette);
+
+		palette.forEach(function(arr) {
+			arr = arr.toString();
+		});
+
+		var stringPalette = palette.toString();
+
+		bitMapBuff.write(stringPalette, 54, 254);
+
+		fs.writeFile('./img/randomizedBmp.bmp', bitMapBuff, function(err) {
+			if(err) {
+				throw err;
+			}
+		});
 	}
-});
 
+});
 
 
 
