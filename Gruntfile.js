@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-simple-mocha');
 
-	var srcFiles = ['Gruntfile.js', 'index.js'];
+	var srcFiles = ['Gruntfile.js', 'index.js', './lib/*.js'];
 
 	grunt.initConfig({
 
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
 		simplemocha: {
 			dev:{
-				src: srcFiles
+				src: ['./test/**/*test.js']
 			}
 		},
 
@@ -32,6 +32,6 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask('test', ['jshint:dev']);
+	grunt.registerTask('test', ['jshint:dev', 'simplemocha:dev']);
 	grunt.registerTask('default', ['test']);
 };
