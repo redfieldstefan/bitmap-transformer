@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-simple-mocha');
 
-	var srcFiles = ['Gruntfile.js', 'index.js', './lib/*.js'];
+	var srcFiles = ['Gruntfile.js', 'index.js', './lib/*.js', './test/**/*test.js'];
 
 	grunt.initConfig({
 
