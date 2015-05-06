@@ -19,7 +19,7 @@ describe('randomize.js', function() {
 describe('stringify.js', function() {
 
 	var testArray = [[1],[2],[3],[4],[5]];
-	var stringifiedArray = stringify.stringify(testArray);
+	var stringifiedArray = stringify(testArray);
 
 	it('Should take an array and all of its indices and turn them into strings', function(){
 		expect(typeof stringifiedArray).to.eql('string');
